@@ -1,0 +1,13 @@
+reload: '&aĐã tải lại cấu hình thành công'
+
+# {name} Name items
+# {amount} Amount items
+# {price} Price items
+# {totalPrice} Get total = amount * price
+sell-success: '&aĐã bán thành công {name} với giá là {totalPrice}'
+
+sell-max-today: '&aBạn đã hoàn thành xong vụ mùa ngày hôm nay'
+
+not-storaged: '&cKho của bạn không lưu trữ loại cây trồng nào!'
+
+inventory-full: '&cBa lô của bạn đã đầy và bạn không thể lấy cây trồng ra được!'

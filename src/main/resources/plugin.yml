@@ -1,0 +1,13 @@
+name: StarsFarm
+main: me.tanluc.starfarm.StarsFarm
+version: 1.0.6
+api-version: 1.13
+author: Xing_Chen
+depend:
+  - Vault
+commands:
+  starsfarm:
+    aliases:
+      - stf
+      - kho
+      - storage

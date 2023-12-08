@@ -72,8 +72,6 @@ public class StarsFarm extends JavaPlugin {
     Bukkit.getConsoleSender().sendMessage("§f| §aVersion: §d1.0");
     Bukkit.getConsoleSender().sendMessage("§f+--------------------------------------------------------------------+");
     BukkitTask task = (new Tk()).runTaskTimer((Plugin)this, 0L, 1200L);
-    //getServer().getPluginManager().registerEvents((Listener)new UiClick(), (Plugin)this);
-    //getServer().getPluginManager().registerEvents((Listener)new UiClickNew(), (Plugin)this);
     getServer().getPluginManager().registerEvents((Listener)new UiClick(), (Plugin)this);
 
     if (getServer().getPluginManager().getPlugin("Vault") != null) {
@@ -87,9 +85,6 @@ public class StarsFarm extends JavaPlugin {
       loadBlocksFromUIConfiguration();
       getLogger().info("Load all blocks supported correctly");
     }, 20L);
-
-    name = "§e作物仓库";
-    asName = "§c作物仓库";
 
     loadGUIConfiguration("gui/crops");
     loadGUIConfiguration("gui/blocks");

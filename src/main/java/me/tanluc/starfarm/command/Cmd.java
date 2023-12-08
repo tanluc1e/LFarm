@@ -5,16 +5,17 @@ import me.tanluc.starfarm.fileManager.MessageManager;
 import me.tanluc.starfarm.ui.Gui;
 import me.tanluc.starfarm.data.User;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class Cmd implements CommandExecutor {
-
-
+public class Cmd implements CommandExecutor, TabCompleter {
   @Override
   public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
     if (args.length < 1) {
@@ -67,5 +68,35 @@ public class Cmd implements CommandExecutor {
     }
 
     return true;
+  }
+
+  @Override
+  public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+    if (args.length == 1) {
+      List<String> completions = new ArrayList<>();
+      completions.add("reload");
+      completions.add("open");
+      completions.add("add");
+      completions.add("help");
+      return completions;
+    } else if (args.length == 2 && args[0].equals("add")) {
+      List<String> completions = new ArrayList<>();
+      completions.add("have");
+      completions.add("sell");
+      return completions;
+    } else if (args.length == 3 && args[0].equals("add") && (args[1].equals("have") || args[1].equals("sell"))) {
+      List<String> completions = new ArrayList<>();
+      for (Material material : StarsFarm.materials) {
+        completions.add(material.name());
+      }
+      return completions;
+    } else if (args.length == 4 && args[0].equals("add") && (args[1].equals("have") || args[1].equals("sell"))) {
+      List<String> completions = new ArrayList<>();
+      for (int i = 1; i <= 5; i++) {
+        completions.add(String.valueOf(i));
+      }
+      return completions;
+    }
+    return null;
   }
 }

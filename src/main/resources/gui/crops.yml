@@ -1,171 +1,62 @@
-##主GUI界面 - 装饰1
-ZS1:
-  ## 材质
-  Material: STAINED_GLASS_PANE
-  ## 名字
-  name: "装饰"
-  ## model_data 自定义材质数据 必须是整数
-  model_data: 10001
-  ## lore
-  lore:
-    - 111
-ZS2:
-  ## 材质
-  Material: STAINED_GLASS_PANE
-  ## 名字
-  name: "装饰"
-  ## model_data 自定义材质数据 必须是整数
-  model_data: 10001
-  ## lore
-  lore:
-    - 111
+title: "§a§lCrops"
 
-## 主体
-CARROT:
-  ## 名称
-  name: '胡萝卜'
-  ## 价格（单价）
-  price: 3.0
-  ## 出售上限
-  maxSell: 5000
-POTATO:
-  name: '马铃薯'
-  price: 3.0
-  maxSell: 5000
-WHEAT:
-  name: '小麦'
-  price: 3.0
-  maxSell: 5000
-NETHER_WART:
-  name: '地狱疣'
-  price: 3.0
-  maxSell: 5000
-SUGAR_CANE:
-  name: '地狱疣'
-  price: 3.0
-  maxSell: 5000
-BEETROOT:
-  name: '地狱疣'
-  price: 3.0
-  maxSell: 5000
+Icon:
+  Border:
+    Material: STAINED_GLASS_PANE
+    name: "§f "
+    model_data: 2
+    lore: []
+  Inside:
+    Material: STAINED_GLASS_PANE
+    name: "§f "
+    model_data: 7
+    lore: []
 
-#出售
 Sell:
   Material: GOLD_NUGGET
-  #名称
-  name: "一键出售"
-  # 材质
+  name: "SELL"
   model_data: 1
-  #lore信息 {0}、{1}、{2}、{3}等参数禁止修改 否侧会出现奇怪的问题！
   lore:
-    - '§6[]§b出售信息'
-    - ' §7- §f今日已出售:§3 {1}'
-    - ' §7- §f可出售总量:§3 {2}'
-    - ' §7- §f出售总价值:§3 {3} §e元'
-shou:
-  Material: LEVER
-  model_data: 1
-  name: '§5自动收集'
-  lore:
-    - '§e收集状态: {0}'
-  true: '§6开启'
-  false: '§6关闭'
+    - '§6[]§bInformation:'
+    - ' §7- §fSell today:§3 {1}'
+    - ' §7- §fTotal can sell:§3 {2}'
+    - ' §7- §fTotal sell: §e$§3{3}'
 
-help:
-  Material: BOOK
-  name: '§5帮助'
-  model_data: 1
+button:
+  Material: LEVER
+  name: '§5Automatic Pickup'
   lore:
-    - '§r我懒了 你自己写吧'
-WHEAT_SEEDS:
-  name: '小麦种子'
-BEETROOT_SEEDS:
-  name: '甜菜种子'
+    - '§eStatus: {0}'
+  true: '§6On'
+  false: '§6Off'
+  slot: 53
+
 
 Menu:
-  CARROT:
-    name: '§2胡萝卜'
-    model_data: 1
-    lore:
-      - '§6[]§b仓库信息'
-      - ' §7- §f总数:§3 {0}'
-      - '§6[]§b仓库介绍'
-      - ' §7- §f仓库内储存对应农作物'
-      - ' §7- §f点击可以打开仓库取出农作物'
-      - ' §7- §f下方可以§3一键出售§f农作物'
-    slot: 11
-  POTATO:
-    name: '§2马铃薯'
-    model_data: 1
-    lore:
-      - '§6[]§b仓库信息'
-      - ' §7- §f总数:§3 {0}'
-      - '§6[]§b仓库介绍'
-      - ' §7- §f仓库内储存对应农作物'
-      - ' §7- §f点击可以打开仓库取出农作物'
-      - ' §7- §f下方可以§3一键出售§f农作物'
-    slot: 13
   WHEAT:
-    name: '§2小麦'
-    model_data: 1
+    name: '§eWheat'
+    price: 3.0
+    maxSell: 100
+    model_data: 0
     lore:
-      - '§6[]§b仓库信息'
-      - ' §7- §f总数:§3 {0}'
-      - '§6[]§b仓库介绍'
-      - ' §7- §f仓库内储存对应农作物'
-      - ' §7- §f点击可以打开仓库取出农作物'
-      - ' §7- §f下方可以§3一键出售§f农作物'
-    slot: 15
-  NETHER_WART:
-    name: '§2地狱疣'
-    model_data: 1
+      - '§6[]§bWarehouse information'
+      - ' §7- §fTotal:§3 {0}'
+      - '§6[]§bWarehouse introduction'
+      - ' §7- §fStore corresponding crops in the warehouse'
+      - ' §7- §fClick to open the warehouse and take out items'
+      - ' §7- §fBelow you can §3sell items §fwith one click'
+    slot: 11
+  CARROT_ITEM:
+    price: 3.0
+    maxSell: 10
+    name: '§2Carrot'
+    model_data: 0
     lore:
-      - '§6[]§b仓库信息'
-      - ' §7- §f总数:§3 {0}'
-      - '§6[]§b仓库介绍'
-      - ' §7- §f仓库内储存对应农作物'
-      - ' §7- §f点击可以打开仓库取出农作物'
-      - ' §7- §f下方可以§3一键出售§f农作物'
-    slot: 29
-  SUGAR_CANE:
-    name: '§2甘蔗'
-    model_data: 1
-    lore:
-      - '§6[]§b仓库信息'
-      - ' §7- §f总数:§3 {0}'
-      - '§6[]§b仓库介绍'
-      - ' §7- §f仓库内储存对应农作物'
-      - ' §7- §f点击可以打开仓库取出农作物'
-      - ' §7- §f下方可以§3一键出售§f农作物'
-    slot: 31
-  BEETROOT:
-    name: '§2甜菜根'
-    model_data: 1
-    lore:
-      - '§6[]§b仓库信息'
-      - ' §7- §f总数:§3 {0}'
-      - '§6[]§b仓库介绍'
-      - ' §7- §f仓库内储存对应农作物'
-      - ' §7- §f点击可以打开仓库取出农作物'
-      - ' §7- §f下方可以§3一键出售§f农作物'
-    slot: 33
-  WHEAT_SEEDS:
-    name: '§2小麦种子'
-    model_data: 1
-    lore:
-      - '§6[]§b仓库信息'
-      - ' §7- §f总数:§3 {0}'
-      - '§6[]§b仓库介绍'
-      - ' §7- §f仓库内储存对应农作物'
-      - ' §7- §f点击可以打开仓库取出农作物'
-    slot: 48
-  BEETROOT_SEEDS:
-    name: '§2甜菜种子'
-    model_data: 1
-    lore:
-      - '§6[]§b仓库信息'
-      - ' §7- §f总数:§3 {0}'
-      - '§6[]§b仓库介绍'
-      - ' §7- §f仓库内储存对应农作物'
-      - ' §7- §f点击可以打开仓库取出农作物'
-    slot: 50
+      - '§6[]§bWarehouse information'
+      - ' §7- §fTotal:§3 {0}'
+      - '§6[]§bWarehouse introduction'
+      - ' §7- §fStore corresponding crops in the warehouse'
+      - ' §7- §fClick to open the warehouse and take out items'
+      - ' §7- §fBelow you can §3sell items §fwith one click'
+    slot: 13
+

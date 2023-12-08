@@ -7,12 +7,8 @@ import java.util.Calendar;
 import java.util.List;
 
 import me.tanluc.starfarm.data.User;
-import me.tanluc.starfarm.ui.Ui;
 import me.tanluc.starfarm.StarsFarm;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -55,8 +51,9 @@ public class Tk extends BukkitRunnable {
       Bukkit.getOnlinePlayers().forEach(v -> {
             InventoryView openInventory = v.getOpenInventory();
             String title = openInventory.getTitle();
-            if (title.equals(StarsFarm.name))
-              Ui.MainUi(v);
+            if (title.equals(StarsFarm.name)) {
+              //Ui.MainUi(v);
+            }
           });
     } 
   }

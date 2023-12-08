@@ -25,6 +25,10 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
+/**
+ * @author TanLuc
+ * @version 1.0
+ */
 public class StarsFarm extends JavaPlugin {
   public static String name;
   
@@ -33,10 +37,6 @@ public class StarsFarm extends JavaPlugin {
   public static File config;
   
   public static FileConfiguration cc;
-  
-  public static File gui;
-  
-  public static FileConfiguration ui;
 
   public static File PlayerData;
   public static File messages;
@@ -59,10 +59,6 @@ public class StarsFarm extends JavaPlugin {
   private static Economy econ = null;
   
   private static boolean isEco;
-  
-  public static FileConfiguration getUi() {
-    return ui;
-  }
   private static Map<String, FileConfiguration> guiConfigurations = new HashMap<>();
   
   public void onEnable() {
@@ -86,7 +82,12 @@ public class StarsFarm extends JavaPlugin {
       getServer().getPluginManager().disablePlugin((Plugin)this);
     }
     registerCommands();
-    loadBlocksFromUIConfiguration();
+
+    Bukkit.getScheduler().runTaskLater(this, () -> {
+      loadBlocksFromUIConfiguration();
+      getLogger().info("Load all blocks supported correctly");
+    }, 20L);
+
     name = "§e作物仓库";
     asName = "§c作物仓库";
 
@@ -121,11 +122,6 @@ public class StarsFarm extends JavaPlugin {
       saveResource("config.yml", false); 
     cc = (FileConfiguration)YamlConfiguration.loadConfiguration(config);
 
-    gui = new File(getDataFolder(), "gui.yml");
-    if (!gui.exists())
-      saveResource("gui.yml", false);
-    ui = (FileConfiguration)YamlConfiguration.loadConfiguration(gui);
-
     PlayerData = new File(getDataFolder(), "PlayerData");
     if (!PlayerData.exists())
       PlayerData.mkdirs(); 
@@ -146,7 +142,7 @@ public class StarsFarm extends JavaPlugin {
       if (files != null) {
         for (File file : files) {
           FileConfiguration guiConfig = YamlConfiguration.loadConfiguration(file);
-          ConfigurationSection blockSupport = guiConfig.getConfigurationSection("blocks");
+          ConfigurationSection blockSupport = guiConfig.getConfigurationSection("Menu");
 
           if (blockSupport != null) {
             for (String blockKey : blockSupport.getKeys(false)) {
@@ -163,34 +159,6 @@ public class StarsFarm extends JavaPlugin {
         }
       }
     }
-    /*
-    ConfigurationSection blockSupport = StarsFarm.getUiConfiguration().getConfigurationSection("blocks");
-    if (blockSupport != null) {
-      for (String s : blockSupport.getKeys(false)) {
-        if (s.toUpperCase().equals(s)) {
-          materials.add(Material.getMaterial(s));
-        }
-        System.out.println("Block support: " + s);
-      }
-    }
-
-     */
-  }
-
-  public static FileConfiguration getUiConfiguration() {
-    return ui;
-  }
-
-  public static FileConfiguration getGUIConfiguration(String guiName) {
-    File guiFile = new File(getInstance().getDataFolder(), "gui/" + guiName + ".yml");
-    if (!guiFile.exists()) {
-      getInstance().saveResource("gui/" + guiName + ".yml", false);
-    }
-
-    FileConfiguration guiConfig = YamlConfiguration.loadConfiguration(guiFile);
-    guiConfigurations.put(guiName, guiConfig); // Store the configuration for future access
-
-    return guiConfig;
   }
 
 

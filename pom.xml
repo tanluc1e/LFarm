@@ -77,10 +77,5 @@
             <version>1.7</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>com.github.SamJakob</groupId>
-            <artifactId>SpiGUI</artifactId>
-            <version>1.3.1</version>
-        </dependency>
     </dependencies>
 </project>

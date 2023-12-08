@@ -60,8 +60,8 @@ public class UiClick implements Listener {
                             e.getCurrentItem() != null &&
                             e.getCurrentItem().hasItemMeta())
                         if (e.getCurrentItem().getType() == Material.GOLD_NUGGET) {
-                            for (String s : ((ConfigurationSection)Objects.<ConfigurationSection>requireNonNull(guiConfig.getConfigurationSection("Menu"))).getKeys(false)) {
-                                if (e.getSlot() - 9 == guiConfig.getInt("Menu." + s + ".slot")) {
+                            for (String key : guiConfig.getConfigurationSection("Menu").getKeys(false)) {
+                                if (e.getSlot() - 9 == guiConfig.getInt("Menu." + key + ".slot")) {
                                     ItemStack is = ((Inventory)Objects.<Inventory>requireNonNull(e.getClickedInventory())).getItem(e.getSlot() - 9);
                                     assert is != null;
                                     String type = is.getType().name();
@@ -71,16 +71,16 @@ public class UiClick implements Listener {
                                     double price = 0;
                                     String itemName = "";
 
-                                    ConfigurationSection blockSupport = guiConfig.getConfigurationSection("blocks");
+                                    ConfigurationSection blockSupport = guiConfig.getConfigurationSection("Menu");
                                     ItemStack clickedItem = e.getView().getItem(e.getSlot() - 9);
                                     if (clickedItem != null) {
                                         String clickedItemType = clickedItem.getType().toString();
 
                                         for (String blockkey : blockSupport.getKeys(false)) {
                                             if (blockkey.equalsIgnoreCase(clickedItemType)) {
-                                                max = guiConfig.getInt("blocks." + blockkey + ".maxSell");
-                                                price = guiConfig.getDouble("blocks." + blockkey + ".price");
-                                                itemName = guiConfig.getString("blocks." + blockkey + ".name");
+                                                max = guiConfig.getInt("Menu." + blockkey + ".maxSell");
+                                                price = guiConfig.getDouble("Menu." + blockkey + ".price");
+                                                itemName = guiConfig.getString("Menu." + blockkey + ".name");
                                                 break;
                                             }
                                         }

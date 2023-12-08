@@ -11,3 +11,13 @@ sell-max-today: '&aBạn đã hoàn thành xong vụ mùa ngày hôm nay'
 not-storaged: '&cKho của bạn không lưu trữ loại cây trồng nào!'
 
 inventory-full: '&cBa lô của bạn đã đầy và bạn không thể lấy cây trồng ra được!'
+
+commands:
+  help:
+    - '/stf reload - Reloads the StarsFarm plugin configuration.'
+    - '/stf open <guiName> - Opens a specific GUI.'
+    - '/stf add [sell/have] <itemName> <amount> - Adds items to your selling total/warehouse.'
+  add:
+    usage: '&cUsage: &f/stf add [sell/have] <itemName> <amount>'
+    sell: '&fAdded &2{item} &a+&2{amount} &fto your warehouse.'
+    have: '&fAdded &2{item} &a+&2{amount} &fto your selling total.'

@@ -38,17 +38,17 @@ public class Gui {
 
         setupZSItems(p, ui, guiConfig);
         setupMenuItems(p, ui , guiConfig);
-        setupHelpAndShouItems(p, ui ,guiConfig);
+        setupOnOffButton(p, ui ,guiConfig);
 
         p.openInventory(ui);
     }
     private static void setupZSItems(Player p, Inventory ui, FileConfiguration guiConfig) {
-        List<String> lore = guiConfig.getStringList("ZS1.lore");
-        int ZS1data = guiConfig.getInt("ZS1.model_data");
-        ItemStack bl = new ItemStack(Material.getMaterial(guiConfig.getString("ZS1.Material")), 1, (short) ZS1data);
+        List<String> lore = guiConfig.getStringList("Icon.Border.lore");
+        int ZS1data = guiConfig.getInt("Icon.Border.model_data");
+        ItemStack bl = new ItemStack(Material.getMaterial(guiConfig.getString("Icon.Border.Material")), 1, (short) ZS1data);
         ItemMeta bm = bl.getItemMeta();
         assert bm != null;
-        bm.setDisplayName(guiConfig.getString("ZS1.name"));
+        bm.setDisplayName(guiConfig.getString("Icon.Border.name"));
         bm.setLore(lore);
         bl.setItemMeta(bm);
         int i = 0;
@@ -56,12 +56,12 @@ public class Gui {
             ui.setItem(i, bl);
             i++;
         }
-        List<String> l1 = guiConfig.getStringList("ZS2.lore");
-        int ZS2data = guiConfig.getInt("ZS2.model_data");
-        bl = new ItemStack(Material.getMaterial(guiConfig.getString("ZS2.Material")), 1, (short) ZS2data);
+        List<String> l1 = guiConfig.getStringList("Icon.Inside.lore");
+        int ZS2data = guiConfig.getInt("Icon.Inside.model_data");
+        bl = new ItemStack(Material.getMaterial(guiConfig.getString("Icon.Inside.Material")), 1, (short) ZS2data);
         bm = bl.getItemMeta();
         assert bm != null;
-        bm.setDisplayName(guiConfig.getString("ZS2.name"));
+        bm.setDisplayName(guiConfig.getString("Icon.Inside.name"));
         bm.setLore(l1);
         bl.setItemMeta(bm);
         i = 10;
@@ -79,74 +79,83 @@ public class Gui {
     }
 
     private static void setupMenuItems(Player p, Inventory ui, FileConfiguration guiConfig) {
-        User user = User.of((OfflinePlayer)p);
-        for (String s : ((ConfigurationSection)Objects.<ConfigurationSection>requireNonNull(guiConfig.getConfigurationSection("Menu"))).getKeys(false)) {
-            int Menudata = guiConfig.getInt("Menu." + s + ".model_data");
-            ItemStack itemStack = new ItemStack(Material.getMaterial(s.toUpperCase()), 1, (short) Menudata);
+        User user = User.of((OfflinePlayer) p);
+
+        for (String key : guiConfig.getConfigurationSection("Menu").getKeys(false)) {
+            int modelData = guiConfig.getInt("Menu." + key + ".model_data");
+            String itemName = guiConfig.getString("Menu." + key + ".name");
+
+            ItemStack itemStack = new ItemStack(Material.getMaterial(key.toUpperCase()), 1, (short) modelData);
             ItemMeta itemMeta = itemStack.getItemMeta();
             assert itemMeta != null;
-            itemMeta.setDisplayName(guiConfig.getString("Menu." + s + ".name"));
-            ArrayList<String> arrayList = new ArrayList<>();
+            itemMeta.setDisplayName(itemName);
+
+            ArrayList<String> loreList = new ArrayList<>();
             String type = itemStack.getType().name();
-            for (String l : guiConfig.getStringList("Menu." + s + ".lore"))
-                arrayList.add(l.replace("{0}", String.valueOf(user.getHave(type))));
-            itemMeta.setLore(arrayList);
+
+            for (String lore : guiConfig.getStringList("Menu." + key + ".lore")) {
+                loreList.add(lore.replace("{0}", String.valueOf(user.getHave(type))));
+            }
+
+            itemMeta.setLore(loreList);
             itemStack.setItemMeta(itemMeta);
-            int slot = guiConfig.getInt("Menu." + s + ".slot");
+
+            int slot = guiConfig.getInt("Menu." + key + ".slot");
             ui.setItem(slot, itemStack);
+
             if (slot < 48) {
-                itemStack = new ItemStack(Objects.<Material>requireNonNull(Material.getMaterial(Objects.<String>requireNonNull(guiConfig.getString("Sell.Material")))));
-                itemMeta = itemStack.getItemMeta();
-                assert itemMeta != null;
-                itemMeta.setDisplayName(((String)Objects.<String>requireNonNull(guiConfig.getString("Sell.name"))).replace("{0}", Objects.<CharSequence>requireNonNull(guiConfig.getString("Menu." + s + ".name"))));
-                arrayList = new ArrayList<>();
-                int maxSell = guiConfig.getInt("blocks." + s + ".maxSell");
-                for (String l : guiConfig.getStringList("Sell.lore")) {
-                    //l = l.replace("{1}", "" + user.getSell(type) + "/" + user.getSell(type));
-                    l = l.replace("{1}", "" + user.getSell(type) + "/" + maxSell);
-                    if (user.getHave(type) >= guiConfig.getInt("blocks." + s + ".maxSell") - user.getSell(type)) {
-                        // SỐ LƯỢNG CÓ SẴN ĐỂ BÁN = Tổng bán mỗi ngày - Tổng đã bán
-                        l = l.replace("{2}", String.valueOf(guiConfig.getInt("blocks." + s + ".maxSell") - user.getSell(type)));
-                        // TỔNG GIÁ BÁN = Số lượng có sẵn - Giá config
-                        l = l.replace("{3}", String.valueOf((guiConfig.getInt("blocks." + s + ".maxSell") - user.getSell(type)) * guiConfig.getDouble("blocks." + s + ".price")));
+                String sellMaterial = guiConfig.getString("Sell.Material");
+                String sellName = guiConfig.getString("Sell.name");
+
+                ItemStack sellItemStack = new ItemStack(Objects.requireNonNull(Material.getMaterial(sellMaterial)));
+                ItemMeta sellItemMeta = sellItemStack.getItemMeta();
+                assert sellItemMeta != null;
+                sellItemMeta.setDisplayName(sellName.replace("{0}", itemName));
+
+                ArrayList<String> sellLoreList = new ArrayList<>();
+                int maxSell = guiConfig.getInt("Menu." + key + ".maxSell");
+                String sellType = itemStack.getType().name();
+
+                for (String sellLore : guiConfig.getStringList("Sell.lore")) {
+                    sellLore = sellLore.replace("{1}", user.getSell(sellType) + "/" + maxSell);
+
+                    if (user.getHave(sellType) >= maxSell - user.getSell(sellType)) {
+                        sellLore = sellLore.replace("{2}", String.valueOf(maxSell - user.getSell(sellType)));
+                        sellLore = sellLore.replace("{3}", String.valueOf((maxSell - user.getSell(sellType)) * guiConfig.getDouble("Menu." + key + ".price")));
                     } else {
-                        l = l.replace("{2}", String.valueOf(user.getHave(type)));
-                        l = l.replace("{3}", String.valueOf(user.getHave(type) * guiConfig.getDouble("blocks." + s + ".price")));
+                        sellLore = sellLore.replace("{2}", String.valueOf(user.getHave(sellType)));
+                        sellLore = sellLore.replace("{3}", String.valueOf(user.getHave(sellType) * guiConfig.getDouble("Menu." + key + ".price")));
                     }
-                    arrayList.add(l);
+
+                    sellLoreList.add(sellLore);
                 }
-                itemMeta.setLore(arrayList);
-                itemStack.setItemMeta(itemMeta);
-                ui.setItem(slot + 9, itemStack);
+
+                sellItemMeta.setLore(sellLoreList);
+                sellItemStack.setItemMeta(sellItemMeta);
+                ui.setItem(slot + 9, sellItemStack);
             }
         }
     }
 
-    private static void setupHelpAndShouItems(Player p, Inventory ui, FileConfiguration guiConfig) {
-        int Helpdata = guiConfig.getInt("help.model_data");
-        ItemStack is = new ItemStack(Material.getMaterial(guiConfig.getString("help.Material")), 1, (short) Helpdata);
-        ItemMeta im = is.getItemMeta();
-        assert im != null;
-        im.setDisplayName(guiConfig.getString("help.name"));
-        im.setLore(guiConfig.getStringList("help.lore"));
-        is.setItemMeta(im);
-        ui.setItem(45, is);
-        int Shoudata = guiConfig.getInt("shou.model_data");
-        is = new ItemStack(Material.getMaterial(guiConfig.getString("shou.Material")), 1, (short) Shoudata);
-        im = is.getItemMeta();
-        assert im != null;
-        im.setDisplayName(guiConfig.getString("shou.name"));
-        ArrayList<String> al = new ArrayList<>();
-        for (String s : guiConfig.getStringList("shou.lore")) {
-            if (StarsFarm.players.contains(p)) {
-                al.add(s.replace("{0}", Objects.<CharSequence>requireNonNull(guiConfig.getString("shou.true"))));
-                continue;
+
+    private static void setupOnOffButton(Player p, Inventory ui, FileConfiguration guiConfig) {
+        int shouData = guiConfig.getInt("button.model_data");
+        int shouSlot = guiConfig.getInt("button.slot");
+
+        ItemStack shouItem = new ItemStack(Material.getMaterial(guiConfig.getString("button.Material")), 1, (short) shouData);
+        ItemMeta shouMeta = shouItem.getItemMeta();
+        if (shouMeta != null) {
+            shouMeta.setDisplayName(guiConfig.getString("button.name"));
+            ArrayList<String> shouLore = new ArrayList<>();
+            for (String s : guiConfig.getStringList("button.lore")) {
+                shouLore.add(s.replace("{0}", StarsFarm.players.contains(p) ?
+                        guiConfig.getString("button.true") :
+                        guiConfig.getString("button.false")));
             }
-            al.add(s.replace("{0}", Objects.<CharSequence>requireNonNull(guiConfig.getString("shou.false"))));
+            shouMeta.setLore(shouLore);
+            shouItem.setItemMeta(shouMeta);
         }
-        im.setLore(al);
-        is.setItemMeta(im);
-        ui.setItem(53, is);
+        ui.setItem(shouSlot, shouItem);
     }
 
 }

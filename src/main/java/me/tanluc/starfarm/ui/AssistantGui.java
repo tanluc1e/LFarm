@@ -7,6 +7,9 @@ import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
@@ -15,10 +18,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.Objects;
 
 public class AssistantGui {
+
     public static void StorageGui(Player p, Material material) {
         User user = User.of((OfflinePlayer)p);
         if (StarsFarm.materials.contains(material)) {
-            Inventory inv = Bukkit.createInventory((InventoryHolder)p, 54, Objects.<String>requireNonNull(StarsFarm.getInstance().getConfig().getString("nameNew")));
+            Inventory inv = Bukkit.createInventory((InventoryHolder)p, 54, StarsFarm.getInstance().getConfig().getString("warehouseTitle"));
             p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 50.0F, 50.0F);
             ItemStack is = new ItemStack(material);
             String type = is.getType().name();

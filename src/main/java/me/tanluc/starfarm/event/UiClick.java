@@ -19,6 +19,7 @@ import java.io.File;
 import java.util.Objects;
 
 public class UiClick implements Listener {
+    public static String beforeGui;
     @EventHandler
     public void onClick(InventoryClickEvent e) {
         Player p = (Player) e.getWhoClicked();
@@ -43,6 +44,7 @@ public class UiClick implements Listener {
 
                 FileConfiguration guiConfig = YamlConfiguration.loadConfiguration(file);
                 String title = guiConfig.getString("title");
+                String assistantTitle = StarsFarm.cc.getString("warehouseTitle");
                 if (e.getView().getTitle().equals(title)) {
                     e.setCancelled(true);
                     if (e.getSlot() == 53) {
@@ -123,10 +125,31 @@ public class UiClick implements Listener {
                                     p.sendMessage(StarsFarm.messageManager.inventoryFull());
                                 } else {
                                     AssistantGui.StorageGui(p, e.getCurrentItem().getType());
+                                    beforeGui = fileName;
                                 }
                             } else {
                                 p.playSound(p.getLocation(), Sound.BLOCK_ANVIL_LAND, 50.0F, 50.0F);
                                 p.sendMessage(StarsFarm.messageManager.notStoraged());
+                            }
+                        }
+                } else if (e.getView().getTitle().equals(assistantTitle)) {
+                    e.setCancelled(true);
+                    if (e.getCurrentItem() != null &&
+                            e.getClickedInventory() == p.getOpenInventory().getTopInventory())
+                        if (e.getCurrentItem().hasItemMeta()) {
+                            Gui.OpenMenu(p, beforeGui);
+                            System.out.println("FILE NAME" + fileName);
+                        } else if (StarsFarm.materials.contains(e.getCurrentItem().getType())) {
+                            String type = e.getCurrentItem().getType().name();
+                            if (p.getInventory().firstEmpty() != -1) {
+                                p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 50.0F, 50.0F);
+                                user.setHave(type, user.getHave(type) - e.getCurrentItem().getAmount());
+                                p.getInventory().addItem(new ItemStack[] { e.getCurrentItem() });
+                                AssistantGui.StorageGui(p, e.getCurrentItem().getType());
+                            } else {
+                                p.playSound(p.getLocation(), Sound.BLOCK_ANVIL_LAND, 50.0F, 50.0F);
+                                p.closeInventory();
+                                p.sendMessage("§r[" + StarsFarm.prefix + "§r]§c 你的背包已经满了,无法取出农作物!");
                             }
                         }
                 }

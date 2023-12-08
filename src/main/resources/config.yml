@@ -10,7 +10,7 @@ name: "&a作物仓库"
 
 ##仓库界面的标题
 nameNew: "&b作物仓库"
-
+warehouseTitle: 'Warehouse'
 
 ## 副GUI界面的相关信息
 As:

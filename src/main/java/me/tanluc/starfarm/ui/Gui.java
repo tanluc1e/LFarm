@@ -7,10 +7,7 @@ import java.util.Objects;
 
 import me.tanluc.starfarm.data.User;
 import me.tanluc.starfarm.StarsFarm;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -37,7 +34,7 @@ public class Gui {
         p.playSound(p.getLocation(), Sound.BLOCK_CHEST_OPEN, 50.0F, 50.0F);
 
         setupZSItems(p, ui, guiConfig);
-        setupMenuItems(p, ui , guiConfig);
+        setupMenuItems(p, ui , guiConfig, 1, 2);
         setupOnOffButton(p, ui ,guiConfig);
 
         p.openInventory(ui);
@@ -78,7 +75,7 @@ public class Gui {
         }
     }
 
-    private static void setupMenuItems(Player p, Inventory ui, FileConfiguration guiConfig) {
+    private static void setupMenuItems(Player p, Inventory ui, FileConfiguration guiConfig, int currentPage, int totalPages) {
         User user = User.of((OfflinePlayer) p);
 
         for (String key : guiConfig.getConfigurationSection("Menu").getKeys(false)) {
@@ -137,7 +134,6 @@ public class Gui {
         }
     }
 
-
     private static void setupOnOffButton(Player p, Inventory ui, FileConfiguration guiConfig) {
         int shouData = guiConfig.getInt("button.model_data");
         int shouSlot = guiConfig.getInt("button.slot");
@@ -157,5 +153,4 @@ public class Gui {
         }
         ui.setItem(shouSlot, shouItem);
     }
-
 }

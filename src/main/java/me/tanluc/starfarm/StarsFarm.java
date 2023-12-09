@@ -8,6 +8,7 @@ import java.util.Objects;
 
 import me.tanluc.starfarm.command.Cmd;
 import me.tanluc.starfarm.event.OnBreak;
+import me.tanluc.starfarm.event.OnKilled;
 import me.tanluc.starfarm.event.UiClick;
 import me.tanluc.starfarm.fileManager.MessageManager;
 import me.tanluc.starfarm.task.Tk;
@@ -61,18 +62,19 @@ public class StarsFarm extends JavaPlugin {
   
   private static boolean isEco;
   private static Map<String, FileConfiguration> guiConfigurations = new HashMap<>();
+  public static Map<String, Map<Material, String>> guiBlockNames = new HashMap<>();
   
   public void onEnable() {
     instance = this;
     LoadConfig();
     messageManager = new MessageManager();
-    Bukkit.getPluginManager().registerEvents(new OnBreak(), this);
     Bukkit.getConsoleSender().sendMessage("§f+--------------------------------------------------------------------+");
     Bukkit.getConsoleSender().sendMessage("§f| §aAuthor: §4TanLuc");
     Bukkit.getConsoleSender().sendMessage("§f| §aDependencies: §bVault");
     Bukkit.getConsoleSender().sendMessage("§f| §aVersion: §d1.0");
     Bukkit.getConsoleSender().sendMessage("§f+--------------------------------------------------------------------+");
-    BukkitTask task = (new Tk()).runTaskTimer((Plugin)this, 0L, 1200L);
+    Bukkit.getPluginManager().registerEvents(new OnBreak(), this);
+    Bukkit.getPluginManager().registerEvents(new OnKilled(), this);
     getServer().getPluginManager().registerEvents((Listener)new UiClick(), (Plugin)this);
 
     if (getServer().getPluginManager().getPlugin("Vault") != null) {
@@ -89,6 +91,8 @@ public class StarsFarm extends JavaPlugin {
 
     loadGUIConfiguration("gui/crops");
     loadGUIConfiguration("gui/blocks");
+
+    getAllBlocksName();
   }
   
   public void onDisable() {}
@@ -147,8 +151,6 @@ public class StarsFarm extends JavaPlugin {
                 if (material != null) {
                   materials.add(material);
                 }
-
-                System.out.println("BLOCK SUPPORTED: " + blockKey);
               }
             }
           }
@@ -165,5 +167,30 @@ public class StarsFarm extends JavaPlugin {
 
     FileConfiguration guiConfig = YamlConfiguration.loadConfiguration(guiFile);
     guiConfigurations.put(guiName, guiConfig);
+  }
+
+  public static void getAllBlocksName() {
+    File guiFolder = new File(getInstance().getDataFolder(), "gui");
+    File[] guiFiles = guiFolder.listFiles((dir, name) -> name.toLowerCase().endsWith(".yml"));
+
+    if (guiFiles != null) {
+      for (File guiFile : guiFiles) {
+        String guiName = guiFile.getName().replace(".yml", "");
+        FileConfiguration guiConfig = YamlConfiguration.loadConfiguration(guiFile);
+
+        Map<Material, String> blockNames = new HashMap<>();
+        for (String key : guiConfig.getConfigurationSection("Menu").getKeys(false)) {
+          int modelData = guiConfig.getInt("Menu." + key + ".model_data");
+          String itemName = guiConfig.getString("Menu." + key + ".name");
+
+          Material material = Material.getMaterial(key.toUpperCase());
+          if (material != null) {
+            blockNames.put(material, itemName);
+          }
+        }
+
+        guiBlockNames.put(guiName, blockNames);
+      }
+    }
   }
 }

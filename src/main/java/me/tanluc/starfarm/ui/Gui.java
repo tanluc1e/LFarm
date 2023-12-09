@@ -1,9 +1,7 @@
 package me.tanluc.starfarm.ui;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import me.tanluc.starfarm.data.User;
 import me.tanluc.starfarm.StarsFarm;
@@ -16,9 +14,12 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import static me.tanluc.starfarm.StarsFarm.getInstance;
+
 public class Gui {
+
     public static void OpenMenu(Player p, String guiName) {
-        File guiFile = new File(StarsFarm.getInstance().getDataFolder(), "gui/" + guiName + ".yml");
+        File guiFile = new File(getInstance().getDataFolder(), "gui/" + guiName + ".yml");
         if (!guiFile.exists()) {
             return;
         }
@@ -153,4 +154,5 @@ public class Gui {
         }
         ui.setItem(shouSlot, shouItem);
     }
+
 }

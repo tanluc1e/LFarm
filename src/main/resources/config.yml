@@ -3,6 +3,9 @@ prefix: "Warehouse > "
 ## Daily reset time of selling quantity
 time: "01:31"
 
+title:
+  enable: true
+  message: '+ {amount} {block}'
 
 warehouseTitle: 'Warehouse'
 

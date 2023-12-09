@@ -22,7 +22,7 @@ public class AssistantGui {
     public static void StorageGui(Player p, Material material) {
         User user = User.of((OfflinePlayer)p);
         if (StarsFarm.materials.contains(material)) {
-            Inventory inv = Bukkit.createInventory((InventoryHolder)p, 54, StarsFarm.getInstance().getConfig().getString("warehouseTitle"));
+            Inventory inv = Bukkit.createInventory((InventoryHolder)p, 54, StarsFarm.cc.getString("warehouseTitle"));
             p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 50.0F, 50.0F);
             ItemStack is = new ItemStack(material);
             String type = is.getType().name();

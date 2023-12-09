@@ -1,6 +1,6 @@
 title: "§a§lBlocks"
 
-Icon:
+Gui:
   Border:
     Material: STAINED_GLASS_PANE
     name: "§f "
@@ -11,26 +11,23 @@ Icon:
     name: "§f "
     model_data: 4
     lore: []
-
-Sell:
-  Material: GOLD_NUGGET
-  name: "SELL"
-  model_data: 1
-  lore:
-    - '§6[]§bInformation:'
-    - ' §7- §fSell today:§3 {1}'
-    - ' §7- §fTotal can sell:§3 {2}'
-    - ' §7- §fTotal sell: §e$§3{3}'
-
-button:
-  Material: LEVER
-  name: '§5Automatic Pickup'
-  lore:
-    - '§eStatus: {0}'
-  true: '§6On'
-  false: '§6Off'
-  slot: 53
-
+  Button:
+    Material: LEVER
+    name: '§5Automatic Pickup'
+    lore:
+      - '§eStatus: {0}'
+    true: '§6On'
+    false: '§6Off'
+    slot: 53
+  Sell:
+    Material: GOLD_NUGGET
+    name: "SELL"
+    model_data: 1
+    lore:
+      - '§6[]§bInformation:'
+      - ' §7- §fSell today:§3 {1}'
+      - ' §7- §fTotal can sell:§3 {2}'
+      - ' §7- §fTotal sell: §e$§3{3}'
 
 Menu:
   COAL_BLOCK:

@@ -44,6 +44,12 @@ public class MessageManager {
     public static String addHaveCmd() {
         return ChatColor.translateAlternateColorCodes('&', messagesConfig.getString("commands.add.have"));
     }
+    public static String listBlockCmd() {
+        return ChatColor.translateAlternateColorCodes('&', messagesConfig.getString("commands.list.block"));
+    }
+    public static String notFound() {
+        return ChatColor.translateAlternateColorCodes('&', messagesConfig.getString("commands.list.not-found"));
+    }
     public static void reloadMessagesConfig() {
         messagesConfig = YamlConfiguration.loadConfiguration(StarsFarm.messages);
     }

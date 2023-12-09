@@ -1,20 +1,16 @@
-# 插件QQ交流群 313388185
 
-# 前缀
-prefix: "<< [StarsFarm] >>"
-## 每日的重置出售数量的时间
+prefix: "Warehouse > "
+## Daily reset time of selling quantity
 time: "01:31"
 
-##主界面GUI标题
-name: "&a作物仓库"
 
-##仓库界面的标题
-nameNew: "&b作物仓库"
 warehouseTitle: 'Warehouse'
 
-## 副GUI界面的相关信息
+## Warehouse icon settings
 As:
-  name: "§a点我返回"
+  name: "§cClick me to return"
   model_data: 01
   lore:
-    - '点击返回主界面'
+    - '§2Tutorial: '
+    - '  §aLeft click - Get all'
+    - '  §aRight click - Get one'

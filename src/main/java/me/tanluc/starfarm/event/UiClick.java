@@ -134,25 +134,35 @@ public class UiClick implements Listener {
                         }
                 } else if (e.getView().getTitle().equals(assistantTitle)) {
                     e.setCancelled(true);
-                    if (e.getCurrentItem() != null &&
-                            e.getClickedInventory() == p.getOpenInventory().getTopInventory())
+                    if (e.getCurrentItem() != null && e.getClickedInventory() == p.getOpenInventory().getTopInventory()) {
                         if (e.getCurrentItem().hasItemMeta()) {
                             Gui.OpenMenu(p, beforeGui);
-                            System.out.println("FILE NAME" + fileName);
                         } else if (StarsFarm.materials.contains(e.getCurrentItem().getType())) {
                             String type = e.getCurrentItem().getType().name();
+                            int amountToAdd = 0;
+
+                            if (e.isRightClick()) {
+                                amountToAdd = 1;
+                            } else {
+                                amountToAdd = e.getCurrentItem().getAmount();
+                            }
+
                             if (p.getInventory().firstEmpty() != -1) {
                                 p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 50.0F, 50.0F);
-                                user.setHave(type, user.getHave(type) - e.getCurrentItem().getAmount());
-                                p.getInventory().addItem(new ItemStack[] { e.getCurrentItem() });
+                                user.setHave(type, user.getHave(type) - amountToAdd);
+                                ItemStack itemToAdd = e.getCurrentItem().clone();
+                                itemToAdd.setAmount(amountToAdd);
+                                p.getInventory().addItem(itemToAdd);
                                 AssistantGui.StorageGui(p, e.getCurrentItem().getType());
                             } else {
                                 p.playSound(p.getLocation(), Sound.BLOCK_ANVIL_LAND, 50.0F, 50.0F);
                                 p.closeInventory();
-                                p.sendMessage("§r[" + StarsFarm.prefix + "§r]§c 你的背包已经满了,无法取出农作物!");
+                                p.sendMessage(StarsFarm.messageManager.inventoryFull());
                             }
                         }
+                    }
                 }
+
             }
         }
     }

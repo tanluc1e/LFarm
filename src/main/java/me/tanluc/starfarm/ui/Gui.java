@@ -40,12 +40,12 @@ public class Gui {
         p.openInventory(ui);
     }
     private static void setupZSItems(Player p, Inventory ui, FileConfiguration guiConfig) {
-        List<String> lore = guiConfig.getStringList("Icon.Border.lore");
-        int ZS1data = guiConfig.getInt("Icon.Border.model_data");
-        ItemStack bl = new ItemStack(Material.getMaterial(guiConfig.getString("Icon.Border.Material")), 1, (short) ZS1data);
+        List<String> lore = guiConfig.getStringList("Gui.Border.lore");
+        int ZS1data = guiConfig.getInt("Gui.Border.model_data");
+        ItemStack bl = new ItemStack(Material.getMaterial(guiConfig.getString("Gui.Border.Material")), 1, (short) ZS1data);
         ItemMeta bm = bl.getItemMeta();
         assert bm != null;
-        bm.setDisplayName(guiConfig.getString("Icon.Border.name"));
+        bm.setDisplayName(guiConfig.getString("Gui.Border.name"));
         bm.setLore(lore);
         bl.setItemMeta(bm);
         int i = 0;
@@ -53,12 +53,12 @@ public class Gui {
             ui.setItem(i, bl);
             i++;
         }
-        List<String> l1 = guiConfig.getStringList("Icon.Inside.lore");
-        int ZS2data = guiConfig.getInt("Icon.Inside.model_data");
-        bl = new ItemStack(Material.getMaterial(guiConfig.getString("Icon.Inside.Material")), 1, (short) ZS2data);
+        List<String> l1 = guiConfig.getStringList("Gui.Inside.lore");
+        int ZS2data = guiConfig.getInt("Gui.Inside.model_data");
+        bl = new ItemStack(Material.getMaterial(guiConfig.getString("Gui.Inside.Material")), 1, (short) ZS2data);
         bm = bl.getItemMeta();
         assert bm != null;
-        bm.setDisplayName(guiConfig.getString("Icon.Inside.name"));
+        bm.setDisplayName(guiConfig.getString("Gui.Inside.name"));
         bm.setLore(l1);
         bl.setItemMeta(bm);
         i = 10;
@@ -101,8 +101,8 @@ public class Gui {
             ui.setItem(slot, itemStack);
 
             if (slot < 48) {
-                String sellMaterial = guiConfig.getString("Sell.Material");
-                String sellName = guiConfig.getString("Sell.name");
+                String sellMaterial = guiConfig.getString("Gui.Sell.Material");
+                String sellName = guiConfig.getString("Gui.Sell.name");
 
                 ItemStack sellItemStack = new ItemStack(Objects.requireNonNull(Material.getMaterial(sellMaterial)));
                 ItemMeta sellItemMeta = sellItemStack.getItemMeta();
@@ -113,7 +113,7 @@ public class Gui {
                 int maxSell = guiConfig.getInt("Menu." + key + ".maxSell");
                 String sellType = itemStack.getType().name();
 
-                for (String sellLore : guiConfig.getStringList("Sell.lore")) {
+                for (String sellLore : guiConfig.getStringList("Gui.Sell.lore")) {
                     sellLore = sellLore.replace("{1}", user.getSell(sellType) + "/" + maxSell);
 
                     if (user.getHave(sellType) >= maxSell - user.getSell(sellType)) {
@@ -135,18 +135,18 @@ public class Gui {
     }
 
     private static void setupOnOffButton(Player p, Inventory ui, FileConfiguration guiConfig) {
-        int shouData = guiConfig.getInt("button.model_data");
-        int shouSlot = guiConfig.getInt("button.slot");
+        int shouData = guiConfig.getInt("Gui.Button.model_data");
+        int shouSlot = guiConfig.getInt("Gui.Button.slot");
 
-        ItemStack shouItem = new ItemStack(Material.getMaterial(guiConfig.getString("button.Material")), 1, (short) shouData);
+        ItemStack shouItem = new ItemStack(Material.getMaterial(guiConfig.getString("Gui.Button.Material")), 1, (short) shouData);
         ItemMeta shouMeta = shouItem.getItemMeta();
         if (shouMeta != null) {
-            shouMeta.setDisplayName(guiConfig.getString("button.name"));
+            shouMeta.setDisplayName(guiConfig.getString("Gui.Button.name"));
             ArrayList<String> shouLore = new ArrayList<>();
-            for (String s : guiConfig.getStringList("button.lore")) {
+            for (String s : guiConfig.getStringList("Gui.Button.lore")) {
                 shouLore.add(s.replace("{0}", StarsFarm.players.contains(p) ?
-                        guiConfig.getString("button.true") :
-                        guiConfig.getString("button.false")));
+                        guiConfig.getString("Gui.Button.true") :
+                        guiConfig.getString("Gui.Button.false")));
             }
             shouMeta.setLore(shouLore);
             shouItem.setItemMeta(shouMeta);

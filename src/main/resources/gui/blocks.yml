@@ -2,17 +2,29 @@ title: "§a§lBlocks"
 
 Gui:
   Border:
-    Material: STAINED_GLASS_PANE
+    material: STAINED_GLASS_PANE
     name: "§f "
-    model_data: 6
+    data: 7
     lore: []
   Inside:
-    Material: STAINED_GLASS_PANE
+    material: STAINED_GLASS_PANE
     name: "§f "
-    model_data: 4
+    data: 4
     lore: []
+  Bottom:
+    material: STAINED_GLASS_PANE
+    name: "§f "
+    data: 14
+    lore: []
+  Back:
+    material: BARRIER
+    name: "§f "
+    data: 0
+    lore: []
+    close: false
+    command: "help"
   Button:
-    Material: LEVER
+    material: LEVER
     name: '§5Automatic Pickup'
     lore:
       - '§eStatus: {0}'
@@ -20,9 +32,9 @@ Gui:
     false: '§6Off'
     slot: 53
   Sell:
-    Material: GOLD_NUGGET
+    material: GOLD_NUGGET
     name: "SELL"
-    model_data: 1
+    data: 1
     lore:
       - '§6[]§bInformation:'
       - ' §7- §fSell today:§3 {1}'
@@ -34,7 +46,7 @@ Menu:
     name: '§2Coal block'
     price: 3.0
     maxSell: 100
-    model_data: 0
+    data: 0
     lore:
       - '§6[]§bWarehouse information'
       - ' §7- §fTotal:§3 {0}'
@@ -47,7 +59,7 @@ Menu:
     price: 3.0
     maxSell: 10
     name: '§2Redstone block'
-    model_data: 0
+    data: 0
     lore:
       - '§6[]§bWarehouse information'
       - ' §7- §fTotal:§3 {0}'

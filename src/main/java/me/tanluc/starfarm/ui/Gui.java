@@ -41,22 +41,51 @@ public class Gui {
         p.openInventory(ui);
     }
     private static void setupZSItems(Player p, Inventory ui, FileConfiguration guiConfig) {
+        // ------------------ BOTTOM
+        List<String> bottomLore = guiConfig.getStringList("Gui.Bottom.lore");
+        int bottomData = guiConfig.getInt("Gui.Bottom.data");
+        ItemStack bottom = new ItemStack(Material.getMaterial(guiConfig.getString("Gui.Bottom.material")), 1, (short) bottomData);
+        ItemMeta bottomMeta = bottom.getItemMeta();
+        assert bottomMeta != null;
+        bottomMeta.setDisplayName(guiConfig.getString("Gui.Bottom.name"));
+        bottomMeta.setLore(bottomLore);
+        bottom.setItemMeta(bottomMeta);
+        int bti = 44;
+        while (bti < 54) {
+            ui.setItem(bti, bottom);
+            bti++;
+        }
+
+        // -- BACK BUTTON --
+        List<String> backLore = guiConfig.getStringList("Gui.Back.lore");
+        int backData = guiConfig.getInt("Gui.Back.data");
+        ItemStack back = new ItemStack(Material.getMaterial(guiConfig.getString("Gui.Back.material")), 1, (short) backData);
+        ItemMeta backMeta = back.getItemMeta();
+        assert backMeta != null;
+        backMeta.setDisplayName(guiConfig.getString("Gui.Back.name"));
+        backMeta.setLore(backLore);
+        back.setItemMeta(backMeta);
+        ui.setItem(49, back);
+
+        // ------------------ BORDER
         List<String> lore = guiConfig.getStringList("Gui.Border.lore");
-        int ZS1data = guiConfig.getInt("Gui.Border.model_data");
-        ItemStack bl = new ItemStack(Material.getMaterial(guiConfig.getString("Gui.Border.Material")), 1, (short) ZS1data);
+        int ZS1data = guiConfig.getInt("Gui.Border.data");
+        ItemStack bl = new ItemStack(Material.getMaterial(guiConfig.getString("Gui.Border.material")), 1, (short) ZS1data);
         ItemMeta bm = bl.getItemMeta();
         assert bm != null;
         bm.setDisplayName(guiConfig.getString("Gui.Border.name"));
         bm.setLore(lore);
         bl.setItemMeta(bm);
         int i = 0;
-        while (i < 54) {
+        while (i < 45) {
             ui.setItem(i, bl);
             i++;
         }
+
+        // ------------------ INSIDE
         List<String> l1 = guiConfig.getStringList("Gui.Inside.lore");
-        int ZS2data = guiConfig.getInt("Gui.Inside.model_data");
-        bl = new ItemStack(Material.getMaterial(guiConfig.getString("Gui.Inside.Material")), 1, (short) ZS2data);
+        int ZS2data = guiConfig.getInt("Gui.Inside.data");
+        bl = new ItemStack(Material.getMaterial(guiConfig.getString("Gui.Inside.material")), 1, (short) ZS2data);
         bm = bl.getItemMeta();
         assert bm != null;
         bm.setDisplayName(guiConfig.getString("Gui.Inside.name"));
@@ -80,7 +109,7 @@ public class Gui {
         User user = User.of((OfflinePlayer) p);
 
         for (String key : guiConfig.getConfigurationSection("Menu").getKeys(false)) {
-            int modelData = guiConfig.getInt("Menu." + key + ".model_data");
+            int modelData = guiConfig.getInt("Menu." + key + ".data");
             String itemName = guiConfig.getString("Menu." + key + ".name");
 
             ItemStack itemStack = new ItemStack(Material.getMaterial(key.toUpperCase()), 1, (short) modelData);
@@ -102,7 +131,7 @@ public class Gui {
             ui.setItem(slot, itemStack);
 
             if (slot < 48) {
-                String sellMaterial = guiConfig.getString("Gui.Sell.Material");
+                String sellMaterial = guiConfig.getString("Gui.Sell.material");
                 String sellName = guiConfig.getString("Gui.Sell.name");
 
                 ItemStack sellItemStack = new ItemStack(Objects.requireNonNull(Material.getMaterial(sellMaterial)));
@@ -136,10 +165,10 @@ public class Gui {
     }
 
     private static void setupOnOffButton(Player p, Inventory ui, FileConfiguration guiConfig) {
-        int shouData = guiConfig.getInt("Gui.Button.model_data");
+        int shouData = guiConfig.getInt("Gui.Button.data");
         int shouSlot = guiConfig.getInt("Gui.Button.slot");
 
-        ItemStack shouItem = new ItemStack(Material.getMaterial(guiConfig.getString("Gui.Button.Material")), 1, (short) shouData);
+        ItemStack shouItem = new ItemStack(Material.getMaterial(guiConfig.getString("Gui.Button.material")), 1, (short) shouData);
         ItemMeta shouMeta = shouItem.getItemMeta();
         if (shouMeta != null) {
             shouMeta.setDisplayName(guiConfig.getString("Gui.Button.name"));

@@ -55,6 +55,14 @@ public class UiClick implements Listener {
                         }
                         Gui.OpenMenu(p, fileName);
                     }
+                    if (e.getSlot() == 49) {
+                        if (guiConfig.getBoolean("Gui.Back.close")) {
+                            e.getWhoClicked().closeInventory();
+                        }
+                        if (guiConfig.getString("Gui.Back.command") != null) {
+                            p.performCommand(guiConfig.getString("Gui.Back.command"));
+                        }
+                    }
 
                     if (e.getClickedInventory() == p.getOpenInventory().getTopInventory() &&
                             e.getCurrentItem() != null &&

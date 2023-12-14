@@ -12,6 +12,10 @@ import java.util.Map;
 
 public class GuiManager {
 
+    public static File[] loadGuiFileConfiguration() {
+        File guiFolder = new File(StarsFarm.getInstance().getDataFolder(), "gui");
+        return guiFolder.listFiles((dir, name) -> name.toLowerCase().endsWith(".yml"));
+    }
 
     public static void loadItemsName() {
         File guiFolder = new File(StarsFarm.getInstance().getDataFolder(), "gui");

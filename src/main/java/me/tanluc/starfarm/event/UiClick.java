@@ -2,6 +2,7 @@ package me.tanluc.starfarm.event;
 
 import me.tanluc.starfarm.StarsFarm;
 import me.tanluc.starfarm.data.User;
+import me.tanluc.starfarm.fileManager.GuiManager;
 import me.tanluc.starfarm.ui.AssistantGui;
 import me.tanluc.starfarm.ui.Gui;
 import org.bukkit.*;
@@ -34,11 +35,8 @@ public class UiClick implements Listener {
             return;
         }
 
-        File guiFolder = new File(StarsFarm.getInstance().getDataFolder(), "gui");
-        File[] guiFiles = guiFolder.listFiles((dir, name) -> name.toLowerCase().endsWith(".yml"));
-
-        if (guiFiles != null) {
-            for (File file : guiFiles) {
+        if (GuiManager.loadGuiFileConfiguration() != null) {
+            for (File file : GuiManager.loadGuiFileConfiguration()) {
                 String fileName = file.getName();
                 fileName = fileName.substring(0, fileName.lastIndexOf('.'));
 

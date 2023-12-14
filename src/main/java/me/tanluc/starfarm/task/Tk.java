@@ -31,13 +31,6 @@ public class Tk extends BukkitRunnable {
         this.yaml = YamlConfiguration.loadConfiguration(a);
 
         this.yaml.set(StarsFarm.materials + ".sell", Integer.valueOf(0));
-/*
-          ConfigurationSection blockSupport = StarsFarm.ui.getConfigurationSection("blocks");
-      for (String blockkey : blockSupport.getKeys(false)) {
-        if (blockkey.toUpperCase().equals(blockkey))
-          this.yaml.set(StarsFarm.materials + ".sell", Integer.valueOf(0));
-
-      }*/
 
       try {
         this.yaml.save(a);
@@ -50,10 +43,7 @@ public class Tk extends BukkitRunnable {
     User.ch.clear();
       Bukkit.getOnlinePlayers().forEach(v -> {
             InventoryView openInventory = v.getOpenInventory();
-            String title = openInventory.getTitle();
-            if (title.equals(StarsFarm.name)) {
-              //Ui.MainUi(v);
-            }
+           openInventory.close();
           });
     } 
   }

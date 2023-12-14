@@ -31,8 +31,6 @@ import org.bukkit.plugin.java.JavaPlugin;
  * @version 1.0
  */
 public class StarsFarm extends JavaPlugin {
-  public static String name;
-  
   public static File config;
   
   public static FileConfiguration cc;

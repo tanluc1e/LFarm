@@ -10,11 +10,13 @@ import me.tanluc.starfarm.command.Cmd;
 import me.tanluc.starfarm.event.OnBreak;
 import me.tanluc.starfarm.event.OnKilled;
 import me.tanluc.starfarm.event.UiClick;
+import me.tanluc.starfarm.fileManager.GuiManager;
 import me.tanluc.starfarm.fileManager.MessageManager;
 import me.tanluc.starfarm.task.Tk;
 import me.tanluc.starfarm.ui.Gui;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.ConfigurationSection;
@@ -45,6 +47,7 @@ public class StarsFarm extends JavaPlugin {
   
   public static StarsFarm instance;
   public static MessageManager messageManager;
+  public static GuiManager guiManager;
 
   public static StarsFarm getInstance() {
     return instance;
@@ -53,21 +56,23 @@ public class StarsFarm extends JavaPlugin {
   public static ArrayList<Player> players = new ArrayList<>();
   
   public static ArrayList<Material> materials = new ArrayList<>();
+  public static Map<String, Map<Material, String>> materialsName = new HashMap<>();
   
   public static String prefix;
   
   public String time;
   
   private static Economy econ = null;
-  
+
   private static boolean isEco;
   private static Map<String, FileConfiguration> guiConfigurations = new HashMap<>();
-  public static Map<String, Map<Material, String>> guiBlockNames = new HashMap<>();
+
   
   public void onEnable() {
     instance = this;
     LoadConfig();
     messageManager = new MessageManager();
+    guiManager = new GuiManager();
     Bukkit.getConsoleSender().sendMessage("§f+--------------------------------------------------------------------+");
     Bukkit.getConsoleSender().sendMessage("§f| §aAuthor: §4TanLuc");
     Bukkit.getConsoleSender().sendMessage("§f| §aDependencies: §bVault");
@@ -84,15 +89,15 @@ public class StarsFarm extends JavaPlugin {
     }
     registerCommands();
 
+    LoadGUIConfig("gui/crops");
+    LoadGUIConfig("gui/blocks");
+
+    guiManager.loadItemsName();
+
     Bukkit.getScheduler().runTaskLater(this, () -> {
-      loadBlocksFromUIConfiguration();
-      getLogger().info("Load all blocks supported correctly");
+      guiManager.loadItemsSupport();
+      SendLog("Load all blocks supported correctly");
     }, 20L);
-
-    loadGUIConfiguration("gui/crops");
-    loadGUIConfiguration("gui/blocks");
-
-    getAllBlocksName();
   }
   
   public void onDisable() {}
@@ -133,34 +138,7 @@ public class StarsFarm extends JavaPlugin {
       saveResource("messages.yml", false);
   }
 
-  private void loadBlocksFromUIConfiguration() {
-    File guiFolder = new File(getInstance().getDataFolder(), "gui");
-
-    if (guiFolder.exists() && guiFolder.isDirectory()) {
-      File[] files = guiFolder.listFiles((dir, name) -> name.toLowerCase().endsWith(".yml"));
-
-      if (files != null) {
-        for (File file : files) {
-          FileConfiguration guiConfig = YamlConfiguration.loadConfiguration(file);
-          ConfigurationSection blockSupport = guiConfig.getConfigurationSection("Menu");
-
-          if (blockSupport != null) {
-            for (String blockKey : blockSupport.getKeys(false)) {
-              if (blockKey.toUpperCase().equals(blockKey)) {
-                Material material = Material.getMaterial(blockKey);
-                if (material != null) {
-                  materials.add(material);
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-
-
-  private void loadGUIConfiguration(String guiName) {
+  private void LoadGUIConfig(String guiName) {
     File guiFile = new File(getDataFolder(), guiName + ".yml");
     if (!guiFile.exists())
       saveResource(guiName + ".yml", false);
@@ -169,28 +147,5 @@ public class StarsFarm extends JavaPlugin {
     guiConfigurations.put(guiName, guiConfig);
   }
 
-  public static void getAllBlocksName() {
-    File guiFolder = new File(getInstance().getDataFolder(), "gui");
-    File[] guiFiles = guiFolder.listFiles((dir, name) -> name.toLowerCase().endsWith(".yml"));
-
-    if (guiFiles != null) {
-      for (File guiFile : guiFiles) {
-        String guiName = guiFile.getName().replace(".yml", "");
-        FileConfiguration guiConfig = YamlConfiguration.loadConfiguration(guiFile);
-
-        Map<Material, String> blockNames = new HashMap<>();
-        for (String key : guiConfig.getConfigurationSection("Menu").getKeys(false)) {
-          int modelData = guiConfig.getInt("Menu." + key + ".model_data");
-          String itemName = guiConfig.getString("Menu." + key + ".name");
-
-          Material material = Material.getMaterial(key.toUpperCase());
-          if (material != null) {
-            blockNames.put(material, itemName);
-          }
-        }
-
-        guiBlockNames.put(guiName, blockNames);
-      }
-    }
-  }
+  public void SendLog(String log) { Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + getInstance().getName() + " " + log); }
 }

@@ -10,6 +10,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
@@ -29,17 +30,20 @@ public class OnKilled implements Listener {
                 for (ItemStack drop : e.getDrops()) {
                     if (StarsFarm.materials.contains(drop.getType())) {
                         String type = drop.getType().name();
-                        user.setHave(type, user.getHave(type) + drop.getAmount());
-                        itemsToRemove.add(drop);
 
-                        if (StarsFarm.cc.getBoolean("title.enable")) {
-                            String blockCategory = getBlockCategory(drop.getType());
-                            if (blockCategory != null) {
-                                Map<Material, String> blockMap = StarsFarm.guiBlockNames.get(blockCategory);
-                                if (blockMap != null) {
-                                    String blockName = blockMap.get(drop.getType());
-                                    if (blockName != null) {
-                                        sendTitleMessage(killer, ChatColor.GREEN + "+" + drop.getAmount() + " " + blockName);
+                        if(isVanillaItem(drop)){
+                            user.setHave(type, user.getHave(type) + drop.getAmount());
+                            itemsToRemove.add(drop);
+
+                            if (StarsFarm.cc.getBoolean("title.enable")) {
+                                String blockCategory = getBlockCategory(drop.getType());
+                                if (blockCategory != null) {
+                                    Map<Material, String> blockMap = StarsFarm.materialsName.get(blockCategory);
+                                    if (blockMap != null) {
+                                        String blockName = blockMap.get(drop.getType());
+                                        if (blockName != null) {
+                                            sendTitleMessage(killer, ChatColor.GREEN + "+" + drop.getAmount() + " " + blockName);
+                                        }
                                     }
                                 }
                             }
@@ -65,11 +69,18 @@ public class OnKilled implements Listener {
     }
 
     private String getBlockCategory(Material material) {
-        for (Map.Entry<String, Map<Material, String>> entry : StarsFarm.guiBlockNames.entrySet()) {
+        for (Map.Entry<String, Map<Material, String>> entry : StarsFarm.materialsName.entrySet()) {
             if (entry.getValue().containsKey(material)) {
                 return entry.getKey();
             }
         }
         return null;
+    }
+    private boolean isVanillaItem(ItemStack itemStack) {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        if (itemMeta.hasDisplayName() || itemMeta.hasLore() || !itemStack.getEnchantments().isEmpty()) {
+            return false;
+        }
+        return true;
     }
 }

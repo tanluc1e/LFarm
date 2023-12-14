@@ -33,7 +33,7 @@ public class OnBreak implements Listener {
                     if (StarsFarm.cc.getBoolean("title.enable")) {
                         String blockCategory = getBlockCategory(drop.getType());
                         if (blockCategory != null) {
-                            Map<Material, String> blockMap = StarsFarm.guiBlockNames.get(blockCategory);
+                            Map<Material, String> blockMap = StarsFarm.materialsName.get(blockCategory);
                             if (blockMap != null) {
                                 String blockName = blockMap.get(drop.getType());
                                 if (blockName != null) {
@@ -60,7 +60,7 @@ public class OnBreak implements Listener {
     }
 
     private String getBlockCategory(Material material) {
-        for (Map.Entry<String, Map<Material, String>> entry : StarsFarm.guiBlockNames.entrySet()) {
+        for (Map.Entry<String, Map<Material, String>> entry : StarsFarm.materialsName.entrySet()) {
             if (entry.getValue().containsKey(material)) {
                 return entry.getKey();
             }

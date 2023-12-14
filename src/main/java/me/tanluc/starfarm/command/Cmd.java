@@ -25,7 +25,7 @@ public class Cmd implements CommandExecutor, TabCompleter {
       return false;
     }
 
-    if (args[0].equals("reload") && (sender.isOp() || sender.hasPermission("starsfarm.reload"))) {
+    if (args[0].equals("reload") && (sender.isOp() || sender.hasPermission("starsfarm.admin"))) {
       StarsFarm.getInstance().reloadConfig();
       MessageManager.reloadMessagesConfig();
       sender.sendMessage(StarsFarm.messageManager.getReloadMsg());
@@ -33,14 +33,14 @@ public class Cmd implements CommandExecutor, TabCompleter {
       Player player = (Player) sender;
       User user = User.of(player);
 
-      if (args[0].equals("open")) {
+      if (args[0].equals("open") && (sender.isOp() || sender.hasPermission("starsfarm.admin"))) {
         if (args.length >= 2) {
           String guiName = args[1];
           Gui.OpenMenu(player, guiName);
         } else {
           sender.sendMessage("Usage: /stf open <guiName>");
         }
-      } else if (args[0].equals("add")) {
+      } else if (args[0].equals("add") && (sender.isOp() || sender.hasPermission("starsfarm.admin"))) {
         if (args.length >= 4) {
           String itemName = args[2];
           int amount = Integer.parseInt(args[3]);

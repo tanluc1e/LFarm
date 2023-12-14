@@ -9,17 +9,15 @@ import java.util.Objects;
 import me.tanluc.starfarm.command.Cmd;
 import me.tanluc.starfarm.event.OnBreak;
 import me.tanluc.starfarm.event.OnKilled;
+import me.tanluc.starfarm.event.OnPickUp;
 import me.tanluc.starfarm.event.UiClick;
 import me.tanluc.starfarm.fileManager.GuiManager;
 import me.tanluc.starfarm.fileManager.MessageManager;
-import me.tanluc.starfarm.task.Tk;
-import me.tanluc.starfarm.ui.Gui;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.PluginCommand;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -27,7 +25,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitTask;
 
 /**
  * @author TanLuc
@@ -35,8 +32,6 @@ import org.bukkit.scheduler.BukkitTask;
  */
 public class StarsFarm extends JavaPlugin {
   public static String name;
-  
-  public static String asName;
   
   public static File config;
   
@@ -80,6 +75,7 @@ public class StarsFarm extends JavaPlugin {
     Bukkit.getConsoleSender().sendMessage("§f+--------------------------------------------------------------------+");
     Bukkit.getPluginManager().registerEvents(new OnBreak(), this);
     Bukkit.getPluginManager().registerEvents(new OnKilled(), this);
+    Bukkit.getPluginManager().registerEvents(new OnPickUp(), this);
     getServer().getPluginManager().registerEvents((Listener)new UiClick(), (Plugin)this);
 
     if (getServer().getPluginManager().getPlugin("Vault") != null) {

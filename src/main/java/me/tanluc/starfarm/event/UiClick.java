@@ -59,7 +59,7 @@ public class UiClick implements Listener {
                         if (guiConfig.getBoolean("Gui.Back.close")) {
                             e.getWhoClicked().closeInventory();
                         }
-                        if (guiConfig.getString("Gui.Back.command") != null) {
+                        if (guiConfig.getString("Gui.Back.command") != null && !guiConfig.getString("Gui.Back.command").isEmpty()) {
                             p.performCommand(guiConfig.getString("Gui.Back.command"));
                         }
                     }
